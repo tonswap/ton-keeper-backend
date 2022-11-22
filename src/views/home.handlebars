@@ -35,7 +35,7 @@
       }
 
       let interval = setInterval( async ()=> {
-        let res = await fetch(`https://powerful-fjord-07072.herokuapp.com/get-session/${userId}`);
+        let res = await fetch(`https://tonkeeper-connect-v1.herokuapp.com/get-session/${userId}`);
         let data = await res.json();
         if(Object.keys(data).length == 0) {
           console.log("still polling");
