@@ -59,7 +59,7 @@ function init() {
             for (let payload of response.payload) {
                 switch (payload.type) {
                     case AuthRequestTypes.ADDRESS:
-                        print.message = `ton-address ${payload.address}`;
+                        print.message = `{"address": "${payload.address}" }`;
                         break;
                 }
             }
@@ -76,12 +76,12 @@ function init() {
         res.send(memory[userId] || {});
     });
 
-    app.get("/", (req, res) => {
-        res.render("home", {
-            layout: false,
-            requestEndpoint: `${hostname}/authRequest`,
-        });
-    });
+    // app.get("/", (req, res) => {
+    //     res.render("home", {
+    //         layout: false,
+    //         requestEndpoint: `${hostname}/authRequest`,
+    //     });
+    // });
 
     app.listen(port, () => {
         console.log(`Server running at http://${hostname}/`);
