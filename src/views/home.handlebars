@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .wrap {
+        display: flex;
+        align-items: stretch;
+        border: 0 solid black;
+        box-sizing: border-box;
+        flex-basis: auto;
+        flex-direction: column;
+        flex-shrink: 0;
+        margin-top: 40px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #link {
+        font-size: 18px;
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+      function uid() {
+          return (performance.now().toString(36)+Math.random().toString(36)).replace(/\./g,"");
+      };
+      const userId = uid();
+
+      function init() {
+        const authRequestUrl = '{{requestEndpoint}}/' + userId;
+        const loginLink = 'https://app.tonkeeper.com/ton-login/' + authRequestUrl;
+
+        document.getElementById('link').href = loginLink;;
+        new QRCode(document.getElementById('qrcode'), loginLink);
+      }
+
+      let interval = setInterval( async ()=> {
+        let res = await fetch(`https://powerful-fjord-07072.herokuapp.com/get-session/${userId}`);
+        let data = await res.json();
+        if(Object.keys(data).length == 0) {
+          console.log("still polling");
+        } else {
+          console.log(data);
+          let el = document.createElement("div");
+          el.innerHTML = `${JSON.stringify(data)}`;
+          document.body.appendChild(el);
+          clearInterval(interval);
+        }
+      }, 5000);
+    </script>
+    <title>Tonswap Dex</title>
+  </head>
+  <body onload="init()">
+    <div class="wrap">
+      <div id="qrcode"></div>
+      <br />
+      <a id="link">Login by link</a>
+    </div>
+  </body>
+</html>
