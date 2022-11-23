@@ -6,7 +6,7 @@ import { TonConnectServer, AuthRequestTypes } from "@tonapps/tonconnect-server";
 import { getLocalIPAddress } from "./utils";
 
 // use generateServerSecret();
-const staticSecret = process.env.KEEPER_SECRET || "mO8G0c/9ZgfBx1EDMz4aMs4zmz1YsB1ENzK6d0H76QE=";
+const staticSecret = process.env.KEEPER_SECRET;
 const port = process.env.PORT || 8080;
 console.log(process.env);
 
